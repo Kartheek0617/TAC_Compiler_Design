@@ -19,14 +19,6 @@ void runCompiler(const string& sourceCode) {
         Lexer lexer(sourceCode);
         vector<Token> tokens = lexer.tokenize();
         
-        cout << "\n--- 1. Tokens ---\n";
-        for (const auto& t : tokens) {
-            if (t.type != TokenType::END_OF_FILE) {
-                cout << "[" << t.typeToString() << ": " << t.value << "] ";
-            }
-        }
-        cout << "\n";
-
         // 2. Syntax Analysis
         Parser parser(tokens);
         vector<AssignNode*> ast = parser.parse();
@@ -34,25 +26,27 @@ void runCompiler(const string& sourceCode) {
         // 3. Semantic Analysis
         SemanticAnalyzer semanticAnalyzer;
         semanticAnalyzer.analyze(ast);
-        cout << "\n--- 3. Symbol Table ---\n";
-        semanticAnalyzer.printSymbolTable();
 
         // 4. IR Generation
         IRGenerator irGen;
         irGen.generate(ast);
-        cout << "\n--- 4. Intermediate Representation (TAC) ---\n";
-        irGen.printTAC();
+        
+        cout << "Output:\n";
+        for (const auto& inst : irGen.getCode()) {
+            if (inst.op == "=" && inst.arg1.find_first_not_of("0123456789") == string::npos && inst.arg2.empty()) {
+                continue; 
+            }
+            cout << inst.toString() << "\n";
+        }
 
         // 5. Code Optimization (Constant Folding)
         Optimizer optimizer;
         vector<TACInstruction> optimizedTac = optimizer.optimize(irGen.getCode());
-        cout << "\n--- 5. Optimized TAC ---\n";
-        optimizer.printOptimizedTAC(optimizedTac);
 
         // 6. Target Code Generation
+        cout << "\nInnovation Twist: Execution Order\n";
         TargetCodeGenerator codeGen;
-        cout << "\n--- 6. Target Code ---\n";
-        codeGen.generate(optimizedTac);
+        codeGen.generate(irGen.getCode());
         
         // Cleanup AST
         for (auto* node : ast) delete node;
