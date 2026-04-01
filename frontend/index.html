@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiler IDE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <header class="navbar">
+            <div class="logo">✨ Compiler</div>
+            <div class="actions">
+                <button id="theme-toggle" class="theme-btn">🌙 Dark Mode</button>
+                <button id="compile-btn" class="compile-btn">
+                    <span class="btn-text">💖 Run Code</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </div>
+        </header>
+        
+        <main class="workspace">
+            <div class="pane editor-pane">
+                <div class="pane-header">
+                    <span>source.txt</span>
+                </div>
+                <div class="editor-container">
+                    <textarea id="code-editor" spellcheck="false" placeholder="Write your code here..."></textarea>
+                    <pre id="highlighting" class="line-numbers" aria-hidden="true"><code class="language-c" id="highlighting-content"></code></pre>
+                </div>
+            </div>
+
+            <div class="pane output-pane">
+                <div class="pane-header">
+                    <span>Terminal Output</span>
+                    <button id="clear-btn" class="clear-btn">Clear</button>
+                </div>
+                <div class="terminal-window">
+                    <pre id="output-display"></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>

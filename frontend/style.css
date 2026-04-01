@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+    /* Bright Cute IDE Theme */
+    --bg-color: #fff9fb;         
+    --nav-bg: #ffffff;
+    --pane-bg: #ffffff;
+    --border-color: #ffdde4;     
+    --text-main: #5e4352;        
+    --text-muted: #a98292;       
+    --accent: #ff8da1;           
+    --accent-hover: #ff6b87;     
+    --btn-run: #4facfe;
+    --btn-run-hover: #00f2fe;
+    --font-ui: 'Nunito', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    --shadow-sm: 0 2px 8px rgba(255, 141, 161, 0.1);
+}
+
+body.dark-theme {
+    /* Dark Cute IDE Theme */
+    --bg-color: #120e1a;         
+    --nav-bg: #1e162b;
+    --pane-bg: #1e162b;
+    --border-color: #4a3563;     
+    --text-main: #f8e5ee;        
+    --text-muted: #b59cac;       
+    --accent: #b179f0;           
+    --accent-hover: #9c55eb;     
+    --btn-run: #b179f0;
+    --btn-run-hover: #9c55eb;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s;
+}
+
+/* Make it full width/height like a real IDE */
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--nav-bg);
+    padding: 0.8rem 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--accent-hover);
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+button {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s;
+    border: none;
+    font-size: 0.95rem;
+}
+
+.theme-btn {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.theme-btn:hover { 
+    background: var(--bg-color); 
+    border-color: var(--accent); 
+    transform: translateY(-1px);
+}
+
+.compile-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 107, 135, 0.3);
+    min-width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.05rem;
+}
+
+body.dark-theme .compile-btn {
+    background: linear-gradient(135deg, var(--btn-run), var(--btn-run-hover));
+    box-shadow: 0 4px 12px rgba(177, 121, 240, 0.3); 
+}
+
+.compile-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.compile-btn:active { transform: scale(0.97); }
+.compile-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.clear-btn {
+    background: transparent;
+    color: var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+}
+.clear-btn:hover { border-color: var(--border-color); color: var(--text-main); }
+
+.workspace {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    /* Remaining height after navbar */
+    height: calc(100vh - 70px);
+}
+
+/* Two equal sized full-height panes */
+.pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--pane-bg);
+}
+
+.editor-pane {
+    border-right: 2px solid var(--border-color);
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    font-weight: 800;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    height: 45px;
+}
+
+.editor-container {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    background: transparent;
+    height: 100%;
+}
+
+#code-editor, #highlighting {
+    margin: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-code) !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5rem 1.5rem 1.5rem 4rem !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    overflow-y: auto !important;
+}
+
+#code-editor {
+    color: transparent !important;
+    background: transparent !important;
+    caret-color: var(--text-main);
+    resize: none;
+    z-index: 2;
+    outline: none;
+}
+
+#highlighting {
+    z-index: 1;
+    pointer-events: none;
+    background: transparent;
+}
+
+#highlighting-content {
+    font-family: var(--font-code) !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+}
+
+/* Prism theme tweaks */
+code[class*="language-"], pre[class*="language-"] {
+    background: transparent !important;
+    text-shadow: none !important;
+    font-family: var(--font-code) !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+    word-wrap: break-word !important;
+}
+
+/* Line numbers plugin tweaks */
+.line-numbers .line-numbers-rows {
+    top: 0 !important;
+    left: -4rem !important;
+    width: 3.5rem !important;
+    border-right: 2px solid var(--border-color) !important;
+    padding-right: 0.8rem !important;
+    color: var(--text-muted) !important;
+}
+
+.terminal-window {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    background: var(--bg-color);
+}
+body.dark-theme .terminal-window { background: #120e1a; }
+
+#output-display {
+    font-family: var(--font-code);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+body.dark-theme #output-display { color: #f8e5ee; }
+
+/* Dynamic Syntax Highlighting in Output */
+.error-text { color: var(--error); font-weight: bold; }
+
+.colored-header { color: var(--accent-hover); font-weight: bold; font-size: 1.1rem; }
+body.dark-theme .colored-header { color: var(--accent); }
+
+.colored-tac { color: #0284c7; } /* Deep modern blue */
+body.dark-theme .colored-tac { color: #38bdf8; }
+
+.colored-exec { color: #059669; } /* Deep modern green */
+body.dark-theme .colored-exec { color: #34d399; }
+
+.loader {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s ease-in-out infinite;
+}
+.loading .loader { display: block; }
+.loading .btn-text { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
